@@ -6,277 +6,349 @@
   <title>Chat</title>
   <style>
     /* Base layout styles */
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      box-sizing: border-box;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
+html, body {
+ margin: 0;
+  padding: 0;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
 
-    body {
-      padding: 10px;
-      display: flex;
-      height: 100vh;
-      box-sizing: border-box;
-    }
+body {
+ padding: 10px;
+  display: flex;
+  height: 100vh;
+  box-sizing: border-box;
+}
 
-    #main-container {
-      display: flex;
-      flex-grow: 1;
-      gap: 20px;
-      height: 100%;
-      width: 100%;
-      max-height: calc(100vh -20px);
-      overflow: hidden;
-    }
+#main-container {
+ display: flex;
+  flex-grow: 1;
+  gap: 20px;
+  height: 100%;
+  width: 100%;
+  max-height: calc(100vh -20px);
+  overflow: hidden;
+}
 
-    #chat-area {
-      flex-grow: 1;
-      flex-basis: 0;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      min-height: 0;
-    }
+#chat-area {
+ flex-grow: 1;
+  flex-basis: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
 
-    #messages {
-      flex-grow: 1;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-      padding: 10px;
-    }
+#messages {
+ flex-grow: 1;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+}
 
-    /* Input and send button on one line */
-    #input-container {
-      display: flex;
-      gap: 10px;
-      flex-shrink: 0;
-    }
+/* Input and send button on one line */
+#input-container {
+ display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
 
-    #message-input {
-      flex-grow: 1;
-      min-height: 36px;
-      max-height: 50vh;
-      resize: vertical;
-      padding: 8px;
-      font-family: inherit;
-      font-size: inherit;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      overflow-y: auto;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      line-height: 1.4;
-      box-sizing: border-box;
-    }
+#message-input {
+ flex-grow: 1;
+  min-height: 36px;
+  max-height: 50vh;
+  resize: vertical;
+  padding: 8px;
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow-y: auto;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
 
-    /* Sidebar for settings button and user list */
-    #sidebar {
-      display: flex;
-      flex-direction: column;
-      width: 150px;
-      min-width: 150px;
-    }
+/* Sidebar for settings button and user list */
+#sidebar {
+ display: flex;
+  flex-direction: column;
+  width: 150px;
+  min-width: 150px;
+}
 
-    /* Settings button is full width in the sidebar */
-    #open-settings {
-      width: 100%;
-      padding: 8px 0;
-      border: 1px solid black;
-      cursor: pointer;
-      background-color: #f0f0f0;
-      color: #333;
-      margin-bottom: 10px;
-    }
+/* Settings button is full width in the sidebar */
+#open-settings {
+ width: 100%;
+  padding: 8px 0;
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  color: #333;
+  margin-bottom: 10px;
+}
 
-    #open-settings:hover {
-      background-color: #e0e0e0;
-    }
+#open-settings:hover {
+ background-color: #e0e0e0;
+}
 
-    /* User list takes the remaining vertical space */
-    #user-list {
-      flex-grow: 1;
-      border: 1px solid #ccc;
-      padding: 10px;
-      overflow-y: auto;
-    }
+/* User list takes the remaining vertical space */
+#user-list {
+ flex-grow: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  overflow-y: auto;
+}
 
-    button {
-      padding: 8px 16px;
-      border: 1px solid black;
-      cursor: pointer;
-      background-color: #f0f0f0;
-      color: #333;
-    }
+button {
+ padding: 8px 16px;
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  color: #333;
+}
 
-    button:hover {
-      background-color: #e0e0e0;
-    }
+button:hover {
+ background-color: #e0e0e0;
+}
 
-    .message-container {
-      margin-bottom: 8px;
-      display: block;
-    }
+.message-container {
+ margin-bottom: 8px;
+  display: block;
+}
 
-    .message-username {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 2px;
-    }
+.message-username {
+ font-weight: bold;
+  display: block;
+  margin-bottom: 2px;
+}
 
-    .message-content {
-      display: block;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      white-space: pre-wrap;
-    }
+.message-content {
+ display: block;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
 
-    .message-truncated {
-      max-height: 60px;
-      overflow: hidden;
-      position: relative;
-    }
+.message-truncated {
+ max-height: 60px;
+  overflow: hidden;
+  position: relative;
+}
 
-    .message-truncated::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 20px;
-      background: linear-gradient(transparent, white);
-      pointer-events: none;
-    }
+.message-truncated::after {
+ content: '';
+ position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(transparent, white);
+  pointer-events: none;
+}
 
-    .message-expand {
-      color: #0066cc;
-      cursor: pointer;
-      display: inline-block;
-      margin-top: 4px;
-      font-size: 12px;
-    }
+.message-expand {
+ color: #0066cc;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+}
 
-    .highlight {
-      background-color: #ffeb3b;
-    }
+.highlight {
+ background-color: #ffeb3b;
+}
 
-    .message-timestamp {
-      font-size: 0.8em;
-      color: #888;
-      margin-left: 10px;
-    }
+.message-timestamp {
+ font-size: 0.8em;
+  color: #888;
+  margin-left: 10px;
+}
 
-    /* Settings popup styles */
-    #settings-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
+/* Settings popup styles */
+#settings-overlay {
+ position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-    #settings-popup {
-      background-color: white;
-      border: 1px solid black;
-      padding: 20px;
-      width: 400px;
-      position: relative;
-    }
+#settings-popup {
+ background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  width: 400px;
+  position: relative;
+}
 
-    #settings-popup h2 {
-      margin-top: 0;
-    }
+#settings-popup h2 {
+ margin-top: 0;
+}
 
-    #close-settings {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-      font-size: 18px;
-    }
+#close-settings {
+ position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
 
-    .settings-field {
-      margin-bottom: 15px;
-    }
+.settings-field {
+ margin-bottom: 15px;
+}
 
-    .settings-field label {
-      display: block;
-      margin-bottom: 5px;
-    }
+.settings-field label {
+ display: block;
+  margin-bottom: 5px;
+}
 
-    .settings-field input {
-      width: 100%;
-      padding: 8px;
-      box-sizing: border-box;
-    }
+.settings-field input {
+ width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
 
-    #about-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
+/* About popup styles */
+#about-overlay {
+ position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-    #about-popup {
-      background-color: white;
-      border: 1px solid black;
-      padding: 20px;
-      width: 400px;
-      position: relative;
-    }
+#about-popup {
+ background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  width: 400px;
+  position: relative;
+}
 
-    #about-popup h2 {
-      margin-top: 0;
-    }
+#about-popup h2 {
+ margin-top: 0;
+}
 
-    #close-about {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-      font-size: 18px;
-    }
+#close-about {
+ position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
 
-    .about-links {
-      margin-bottom: 15px;
-    }
+.about-links {
+ margin-bottom: 15px;
+}
 
-    .about-links a {
-      display: block;
-      margin-bottom: 10px;
-      color: #0066cc;
-      text-decoration: none;
-    }
+.about-links a {
+ display: block;
+  margin-bottom: 10px;
+  color: #0066cc;
+  text-decoration: none;
+}
 
-    .about-links a:hover {
-      text-decoration: underline;
-    }
+.about-links a:hover {
+ text-decoration: underline;
+}
 
-    #about-text {
-  margin-top: 15px;
+#about-text {
+ margin-top: 15px;
   padding: 10px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
-  line-height: 1.4;  /* Slightly increased line height */
-  height: auto;
+  line-height: 1.4; /* Slightly increased line height */
+ height: auto;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+ html, body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+ #messages {
+    border-color: #555;
+    background-color: #1e1e1e;
+  }
+  
+ #message-input {
+    border-color: #555;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+  
+ /* Style both settings and about buttons with higher specificity */
+ #open-settings,
+  #open-about,
+  button {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #777;
+  }
+  
+ /* Use !important for the about button to ensure it takes the dark styles */
+ #open-about {
+    background-color: #333 !important;
+    color: #e0e0e0 !important;
+    border-color: #777 !important;
+  }
+  
+ #open-settings:hover,
+  #open-about:hover,
+  button:hover {
+    background-color: #444;
+  }
+  
+ #sidebar, #user-list {
+    background-color: #1e1e1e;
+  }
+  
+ /* Ensure user list border matches messages border */
+ #user-list {
+    border-color: #555;
+  }
+  
+ #settings-popup, #about-popup {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #555;
+  }
+  
+ #about-text {
+    background-color: #1e1e1e;
+    border-color: #555;
+  }
+  
+ .message-truncated::after {
+    background: linear-gradient(transparent, #1e1e1e);
+  }
+  
+ /* Style the input fields inside the settings popup */
+ .settings-field input {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #555;
+  }
 }
   </style>
 </head>
@@ -303,7 +375,7 @@
       <h2>Settings</h2>
       <div class="settings-field">
         <label for="server-input">Server URL</label>
-        <input type="text" id="server-input" placeholder="wss://api.viruus.zip/chat/ws">
+        <input type="text" id="server-input" placeholder="ws://CHANGEME.com/CHANGE/ME">
       </div>
       <div class="settings-field">
         <label for="username-input">Username</label>
